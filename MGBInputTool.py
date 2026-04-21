@@ -586,7 +586,7 @@ class MGB_InputTool:
         except ValueError:
             return value  # Return the original value on failure
 
-    def format_column_climates(self, columns):
+    #def format_column_climates(self, columns):
         """Format the relevant columns from the provided list of columns."""
         col1 = self.format_column_climate(columns[0], 5 if len(columns[0]) == 1 else 4 if len(columns[0]) == 2 else 0, 0)
         col2 = self.format_column_climate(columns[1], 5 if len(columns[1]) == 1 else 4 if len(columns[1]) == 2 else 0, 0)
@@ -601,6 +601,33 @@ class MGB_InputTool:
         
         return f"{col1}{col2}{col3}{col4}{col5}{col6}{col7}{col8}\n"
     
+    def format_column_climates(self, columns):
+        """Format the relevant columns from the provided list of columns."""
+        try:
+            d = int(float(columns[0]))
+            m = int(float(columns[1]))
+            a = int(float(columns[2]))
+            temp = float(columns[3])
+            ur = float(columns[4])
+            vento = float(columns[5])
+            insol = float(columns[6])
+            pres = float(columns[7])
+
+            line = (
+                f"{d:6d}"      # Day (6 spaces)
+                f"{m:6d}"      # Month (6 spaces)
+                f"{a:6d}"      # Year (6 spaces)
+                f"{temp:12.1f}" # Temperature (12 spaces)
+                f"{ur:12.1f}"   # relative humidity (12 spaces)
+                f"{vento:12.1f}" # Wind (12 spaces)
+                f"{insol:12.1f}" # Insolation (12 spaces)
+                f"{pres:12.1f}"  # Presure (12 spaces)
+            )
+            return line + "\n"
+        except Exception as e:
+            # Case error print
+            print(f"Error on line {columns}: {e}")
+            return ""
     
     def format_file_climate(self, input_file, output_file):
         formatted_lines = []  # List to store formatted lines
